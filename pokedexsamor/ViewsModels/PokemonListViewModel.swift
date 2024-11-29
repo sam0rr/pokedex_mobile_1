@@ -31,17 +31,18 @@ class PokemonListViewModel: ObservableObject {
                 self?.isLoading = false
                 switch result {
                 case .success(let pokemon):
-                    self?.pokemonList = pokemon
+                    self?.pokemonList = pokemon.sorted(by: { $0.id < $1.id })
+                    print("Success fetching pokemons: \(pokemon.description)")
                 case .failure(let error):
                     self?.errorMessage = error.localizedDescription
-                    print("Error fetching Pokémon: \(error.localizedDescription)")
+                    print("❌ Error fetching Pokémon: \(error.localizedDescription)")
                 }
             }
         }
     }
 
+    /// Toggles the visibility of the filter sheet
     func toggleFilterSheet() {
         isFilterSheetPresented.toggle()
     }
 }
-

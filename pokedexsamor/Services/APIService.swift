@@ -90,10 +90,29 @@ class APIService {
             do {
                 let decodedData = try JSONDecoder().decode(T.self, from: data)
                 completion(.success(decodedData))
+            } catch let DecodingError.dataCorrupted(context) {
+                print("Data corrupted: \(context.debugDescription)")
+                completion(.failure(.decodingError))
+            } catch let DecodingError.keyNotFound(key, context) {
+                print("Key '\(key.stringValue)' not found: \(context.debugDescription)")
+                completion(.failure(.decodingError))
+            } catch let DecodingError.typeMismatch(type, context) {
+                print("Type mismatch for type \(type): \(context.debugDescription)")
+                completion(.failure(.decodingError))
+            } catch let DecodingError.valueNotFound(value, context) {
+                print("Value '\(value)' not found: \(context.debugDescription)")
+                completion(.failure(.decodingError))
             } catch {
+                print("Decoding error: \(error)")
                 completion(.failure(.decodingError))
             }
         }
+
+            
+            
+
+        
+        
 
         task.resume()
     }

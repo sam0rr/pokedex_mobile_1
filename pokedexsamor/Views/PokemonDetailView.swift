@@ -7,34 +7,35 @@ struct PokemonDetailView: View {
     var body: some View {
         Group {
             if viewModel.isLoading {
-    
+                VStack {
+                    ProgressView()
+                    Text("Chargement...")
+                        .padding(.top, 8)
+                }
             } else if let pokemon = viewModel.pokemon {
                 ScrollView {
                     VStack(spacing: 20) {
+                        // Pokémon Image
                         ZStack {
-                           // Color(hex: pokemon.primaryTypeColor)
-                               // .edgesIgnoringSafeArea(.top)
-                               // .frame(height: 300)
-
-                            AsyncImage(url: URL(string: pokemon.image)) { phase in
-                                switch phase {
-                                case .success(let image):
+                            AsyncImage(url: URL(string: pokemon.imageURL)) { phase in
+                                if let image = phase.image {
                                     image.resizable()
                                         .scaledToFit()
                                         .frame(width: 200, height: 200)
-                                case .failure:
+                                } else if phase.error != nil {
                                     Image(systemName: "exclamationmark.triangle")
                                         .resizable()
                                         .scaledToFit()
                                         .frame(width: 100, height: 100)
                                         .foregroundColor(.red)
-                                default:
+                                } else {
                                     ProgressView()
                                 }
                             }
                         }
 
                         VStack(alignment: .leading, spacing: 10) {
+                            // General Info
                             Text("#\(String(format: "%03d", pokemon.id)) \(pokemon.name)")
                                 .font(.title)
                                 .bold()
@@ -42,7 +43,9 @@ struct PokemonDetailView: View {
                                 .font(.headline)
                                 .foregroundColor(.secondary)
 
+                            // Tabs for detailed information
                             TabView {
+                                // About Tab
                                 VStack(alignment: .leading) {
                                     Text("À propos")
                                         .font(.title2)
@@ -53,22 +56,24 @@ struct PokemonDetailView: View {
                                     Divider()
 
                                     HStack {
-                                        Text("Espèce : \(pokemon.species)")
+                                        Text("Espèce : \(pokemon.speciesName)")
                                         Spacer()
-                                        Text("Taille : \(pokemon.height) m")
+                                        Text("Taille : \(Double(pokemon.height) / 10) m")
                                     }
                                     .font(.subheadline)
 
                                     HStack {
-                                        Text("Poids : \(pokemon.weight) kg")
+                                        Text("Poids : \(Double(pokemon.weight) / 10) kg")
                                         Spacer()
-                                        Text("Faiblesses :")
-                                        ForEach(pokemon.weaknesses, id: \.self) { weakness in
-                                            Text(weakness)
-                                                .font(.caption)
-                                                .padding(5)
-                                                .background(Color.gray.opacity(0.2))
-                                                .cornerRadius(5)
+                                        VStack(alignment: .leading) {
+                                            Text("Faiblesses :")
+                                            ForEach(pokemon.weaknesses, id: \.self) { weakness in
+                                                Text(weakness)
+                                                    .font(.caption)
+                                                    .padding(5)
+                                                    .background(Color.gray.opacity(0.2))
+                                                    .cornerRadius(5)
+                                            }
                                         }
                                     }
                                 }
@@ -77,13 +82,15 @@ struct PokemonDetailView: View {
                                     Label("À propos", systemImage: "info.circle")
                                 }
 
+                                // Stats Tab
                                 VStack(alignment: .leading) {
                                     Text("Statistiques de base")
                                         .font(.title2)
                                         .bold()
-                                    ForEach(pokemon.stats, id: \.name) { stat in
+                                    let stats = pokemon.stats // Use stats from `PokemonDetail`
+                                    ForEach(stats) { stat in
                                         HStack {
-                                            Text(stat.name)
+                                            Text(stat.name.capitalized)
                                                 .frame(width: 100, alignment: .leading)
                                             ProgressView(value: Double(stat.value) / 100.0)
                                                 .progressViewStyle(LinearProgressViewStyle(tint: .blue))
@@ -97,30 +104,30 @@ struct PokemonDetailView: View {
                                     Label("Statistiques", systemImage: "chart.bar.fill")
                                 }
 
+                                // Evolution Tab
                                 VStack {
                                     Text("Évolutions")
                                         .font(.title2)
                                         .bold()
-                                    ForEach(pokemon.evolutions, id: \.id) { evolution in
-                                        NavigationLink(destination: PokemonDetailView(idOrName: "\(evolution.id)")) {
+                                    ForEach(pokemon.evolutions, id: \.self) { evolution in
+                                        NavigationLink(destination: PokemonDetailView(idOrName: evolution)) {
                                             HStack {
-                                                AsyncImage(url: URL(string: evolution.image)) { phase in
-                                                    switch phase {
-                                                    case .success(let image):
+                                                AsyncImage(url: URL(string: "https://mapi.cegeplabs.qc.ca/pokedex/v2/images/\(evolution.lowercased()).png")) { phase in
+                                                    if let image = phase.image {
                                                         image.resizable()
                                                             .scaledToFit()
                                                             .frame(width: 50, height: 50)
-                                                    case .failure:
+                                                    } else if phase.error != nil {
                                                         Image(systemName: "exclamationmark.triangle")
                                                             .resizable()
                                                             .scaledToFit()
                                                             .frame(width: 50, height: 50)
                                                             .foregroundColor(.red)
-                                                    default:
+                                                    } else {
                                                         ProgressView()
                                                     }
                                                 }
-                                                Text(evolution.name)
+                                                Text(evolution.capitalized)
                                             }
                                         }
                                         .padding()
