@@ -1,18 +1,24 @@
-//
-//  PokemonRow.swift
-//  pokedexsamor
-//
-//  Created by Samuel Arseneault on 2024-11-29.
-//
-
 import SwiftUI
 
 struct PokemonRow: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+    let pokemon: Pokemon
 
-#Preview {
-    PokemonRow()
+    var body: some View {
+        HStack {
+            AsyncImage(url: URL(string: pokemon.imageUrl)) { image in
+                image.resizable().scaledToFit()
+            } placeholder: {
+                ProgressView()
+            }
+            .frame(width: 50, height: 50)
+
+            VStack(alignment: .leading) {
+                Text("#\(String(format: "%03d", pokemon.id)) \(pokemon.name)")
+                    .font(.headline)
+                Text(pokemon.types.joined(separator: ", "))
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            }
+        }
+    }
 }

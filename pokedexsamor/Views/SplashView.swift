@@ -1,15 +1,30 @@
-//
-//  SplashView.swift
-//  pokedexsamor
-//
-//  Created by Samuel Arseneault on 2024-11-29.
-//
-
 import SwiftUI
 
 struct SplashView: View {
+    @State private var isActive = false
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        if isActive {
+            LoginView()
+        } else {
+            ZStack {
+                Color.red.ignoresSafeArea()
+                VStack {
+                    Image("pokemon")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 250)
+                    Spacer() // Pushes the image to the top
+                }
+            }
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    withAnimation {
+                        isActive = true
+                    }
+                }
+            }
+        }
     }
 }
 
