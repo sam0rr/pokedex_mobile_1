@@ -9,7 +9,7 @@ struct PokemonDetailView: View {
             if viewModel.isLoading {
                 VStack {
                     ProgressView()
-                    Text("Chargement...")
+                    Text("Loading Pokemons...")
                         .padding(.top, 8)
                 }
             } else if let pokemon = viewModel.pokemon {

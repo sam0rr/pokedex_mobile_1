@@ -11,8 +11,9 @@ struct Pokemon: Decodable, Identifiable {
     let types: [String]
 
     var imageURL: String {
-        let formattedName = name.lowercased().replacingOccurrences(of: " ", with: "-")
-        return "https://mapi.cegeplabs.qc.ca/pokedex/v2/images/\(formattedName).png"
+        // Format the ID as a three-digit string (e.g., 001, 002)
+        let formattedID = String(format: "%03d", id)
+        return "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/\(formattedID).png"
     }
 
     enum CodingKeys: String, CodingKey {

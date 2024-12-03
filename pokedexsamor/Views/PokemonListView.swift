@@ -6,7 +6,19 @@ struct PokemonListView: View {
     var body: some View {
         NavigationView {
             VStack {
-                // UI for Pokémon list, filters, search, etc.
+                if viewModel.isLoading {
+                    ProgressView("Loading Pokemon...")
+                        .padding()
+                } else if !viewModel.filteredPokemon.isEmpty {
+                    List(viewModel.filteredPokemon, id: \.id) { pokemon in
+                        PokemonRow(pokemon: pokemon)
+                    }
+                    .listStyle(PlainListStyle())
+                } else {
+                    Text("No Pokemon found.")
+                        .foregroundColor(.secondary)
+                        .padding()
+                }
             }
             .navigationTitle("Pokédex")
             .toolbar {
