@@ -11,12 +11,15 @@ class PokemonListViewModel: ObservableObject {
     var filteredPokemon: [Pokemon] {
         var filtered = pokemonList
 
+        // Filter by search query
         if !searchQuery.isEmpty {
             filtered = filtered.filter { $0.name.lowercased().contains(searchQuery.lowercased()) }
         }
 
+        // Filter by selected types
         if !selectedTypes.isEmpty {
-            filtered = filtered.filter { !Set($0.types).isDisjoint(with: selectedTypes) }
+            let lowercasedTypes = selectedTypes.map { $0.lowercased() }
+            filtered = filtered.filter { !Set($0.types.map { $0.lowercased() }).isDisjoint(with: lowercasedTypes) }
         }
 
         return filtered

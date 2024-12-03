@@ -3,14 +3,14 @@ import SwiftUI
 struct TypeFilterSheet: View {
     @Binding var selectedTypes: Set<String>
     @Environment(\.dismiss) var dismiss
-    
+
     let allTypes: [String] = [
-        "Insecte", "Ténèbres", "Dragon", "Électrik", "Fée",
-        "Combat", "Feu", "Vol", "Spectre", "Plante",
-        "Glace", "Normal", "Poison", "Psy", "Roche",
-        "Acier", "Eau", "Sol"
+        "Bug", "Dark", "Dragon", "Electric", "Fairy",
+        "Fighting", "Fire", "Flying", "Ghost", "Grass",
+        "Ice", "Normal", "Poison", "Psychic", "Rock",
+        "Steel", "Water", "Ground"
     ]
-    
+
     var body: some View {
         NavigationView {
             VStack {
@@ -20,24 +20,26 @@ struct TypeFilterSheet: View {
                             Button(action: {
                                 toggleTypeSelection(type)
                             }) {
-                                Text(type)
-                                    .font(.headline)
-                                    .frame(maxWidth: .infinity)
-                                    .padding()
-                                    .background(selectedTypes.contains(type) ? Color.red : Color.gray.opacity(0.2))
-                                    .foregroundColor(.white)
-                                    .cornerRadius(8)
+                                PokemonTypeChip(typeName: type)
+                                    .overlay(
+                                        Rectangle()
+                                            .stroke(selectedTypes.contains(type) ? Color(type.lowercased()) : Color.clear, lineWidth: 2)
+                                    )
+                                    .shadow(
+                                        color: selectedTypes.contains(type) ? Color(type.lowercased()).opacity(0.5) : Color.clear,
+                                        radius: selectedTypes.contains(type) ? 2 : 0, x: 0, y: 1
+                                    )
                             }
                         }
                     }
                     .padding()
                 }
-                .navigationTitle("Filtrer par type")
+                .navigationTitle("Filter by Type")
                 .navigationBarItems(
-                    leading: Button("Réinitialiser") {
+                    leading: Button("Reset") {
                         resetFilter()
                     },
-                    trailing: Button("Sauvegarder") {
+                    trailing: Button("Save") {
                         dismiss()
                     }
                 )
@@ -58,6 +60,8 @@ struct TypeFilterSheet: View {
     }
 }
 
-#Preview {
-    TypeFilterSheet(selectedTypes: .constant(Set<String>()))
+struct TypeFilterSheet_Previews: PreviewProvider {
+    static var previews: some View {
+        TypeFilterSheet(selectedTypes: .constant(Set<String>()))
+    }
 }

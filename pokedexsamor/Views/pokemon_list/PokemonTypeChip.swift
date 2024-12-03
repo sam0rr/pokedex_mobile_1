@@ -5,13 +5,11 @@ struct PokemonTypeChip: View {
 
     var body: some View {
         HStack(spacing: 4) {
-            // Type Icon
-            Image(typeName.lowercased()) // Assumes asset names match type names
+            Image(typeName.lowercased())
                 .resizable()
                 .scaledToFit()
                 .frame(width: 16, height: 16)
 
-            // Type Name
             Text(typeName.capitalized)
                 .font(.caption)
                 .bold()
@@ -21,12 +19,11 @@ struct PokemonTypeChip: View {
         .background(
             Color(typeName.lowercased())
         )
-        .cornerRadius(3) // Rounded corners for the chip
-        .foregroundColor(.white) // Text and icon color
+        .cornerRadius(3)
+        .foregroundColor(.white)
     }
 }
 
-// Preview
 struct PokemonTypeChip_Previews: PreviewProvider {
     static var previews: some View {
         Group {

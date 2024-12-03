@@ -5,13 +5,17 @@ struct PokemonRow: View {
 
     var body: some View {
         ZStack {
-            // Background color from assets based on the first type, lightened
             (Color(pokemon.types.first?.lowercased() ?? "normal")
-                .lighter(by: 0.15)) // Lighten the background color
+                .lighter(by: 0.15))
                 .cornerRadius(15)
+                .shadow(
+                    color: Color(pokemon.types.first?.lowercased() ?? "normal")
+                        .opacity(0.6),
+                    radius: 10,
+                    x: 0, y: 2
+                )
 
             HStack {
-                // Pokémon ID and Favorite Heart
                 VStack(alignment: .leading) {
                     HStack {
                         Text("#\(String(format: "%03d", pokemon.id))")
@@ -26,14 +30,12 @@ struct PokemonRow: View {
                     }
                     .padding(.bottom, 1)
 
-                    // Pokémon Name
                     Text(pokemon.name)
                         .font(.title2)
                         .bold()
                         .foregroundColor(.white)
                         .padding(.bottom, 1)
 
-                    // Pokémon Types
                     HStack {
                         ForEach(pokemon.types, id: \.self) { type in
                             PokemonTypeChip(typeName: type)
@@ -42,32 +44,33 @@ struct PokemonRow: View {
                 }
                 Spacer()
 
-                // Pokémon Image
                 AsyncImage(url: URL(string: pokemon.imageURL)) { phase in
                     switch phase {
                     case .empty:
                         ProgressView()
-                            .frame(width: 100, height: 100)
-                            .offset(x: 0, y: -40) // Move image above the row
+                            .frame(width: 120, height: 120)
+                            .offset(x: 0, y: -25)
                     case .success(let image):
                         image
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 120, height: 120) // Slightly larger image
-                            .offset(x: 0, y: -40) // Move image above the row
+                            .frame(width: 120, height: 120)
+                            .offset(x: 0, y: -25)
                     case .failure:
                         Image(systemName: "photo")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 100, height: 100)
-                            .offset(x: 0, y: -40) // Move image above the row
+                            .frame(width: 120, height: 120)
+                            .offset(x: 0, y: -25)
                     @unknown default:
                         EmptyView()
+                            .frame(width: 120, height: 120)
+                            .offset(x: 0, y: -25)
                     }
                 }
             }
-            .padding(.horizontal, 12) // Adds padding inside the row
+            .padding(.horizontal, 12)
         }
-        .padding(10) // Adds padding around the entire row
+        .padding(6)
     }
 }
