@@ -11,7 +11,6 @@ struct Pokemon: Decodable, Identifiable {
     let types: [String]
 
     var imageURL: String {
-        // Format the ID as a three-digit string (e.g., 001, 002)
         let formattedID = String(format: "%03d", id)
         return "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/\(formattedID).png"
     }

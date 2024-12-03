@@ -5,9 +5,9 @@ struct PokemonRow: View {
 
     var body: some View {
         ZStack {
-            // Background color based on the first type
-            (TypeColors.colors[pokemon.types.first?.lowercased() ?? "normal"] ?? Color.gray)
-                .lighter(by: 0.15) // Make the background lighter
+            // Background color from assets based on the first type, lightened
+            (Color(pokemon.types.first?.lowercased() ?? "normal")
+                .lighter(by: 0.15)) // Lighten the background color
                 .cornerRadius(15)
 
             HStack {
@@ -15,7 +15,7 @@ struct PokemonRow: View {
                 VStack(alignment: .leading) {
                     HStack {
                         Text("#\(String(format: "%03d", pokemon.id))")
-                            .font(.headline)
+                            .font(.system(size: 12))
                             .bold()
                             .foregroundColor(.black)
 
@@ -47,27 +47,27 @@ struct PokemonRow: View {
                     switch phase {
                     case .empty:
                         ProgressView()
-                            .frame(width: 80, height: 80)
+                            .frame(width: 100, height: 100)
+                            .offset(x: 0, y: -40) // Move image above the row
                     case .success(let image):
                         image
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 100, height: 100)
-                            .offset(x: 10) // Overlaps the row slightly
+                            .frame(width: 120, height: 120) // Slightly larger image
+                            .offset(x: 0, y: -40) // Move image above the row
                     case .failure:
                         Image(systemName: "photo")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 100, height: 100)
-                            .offset(x: 10) // Overlaps the row slightly
+                            .offset(x: 0, y: -40) // Move image above the row
                     @unknown default:
                         EmptyView()
                     }
                 }
             }
-            .padding(.horizontal, 16) // Adds padding inside the row
-            .padding(.vertical, 12)  // Adds vertical spacing for inner elements
+            .padding(.horizontal, 12) // Adds padding inside the row
         }
-        .padding(8) // Adds padding around the entire row
+        .padding(10) // Adds padding around the entire row
     }
 }

@@ -19,10 +19,10 @@ struct PokemonTypeChip: View {
         .padding(.horizontal, 6)
         .padding(.vertical, 6)
         .background(
-            (TypeColors.colors[typeName.lowercased()] ?? Color.gray)
+            Color(typeName.lowercased())
         )
-        .cornerRadius(3)
-        .foregroundColor(.white)
+        .cornerRadius(3) // Rounded corners for the chip
+        .foregroundColor(.white) // Text and icon color
     }
 }
 

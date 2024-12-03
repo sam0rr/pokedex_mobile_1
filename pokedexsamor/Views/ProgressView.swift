@@ -7,7 +7,7 @@ struct CustomProgressView: View {
         VStack(spacing: 16) {
             ProgressView()
                 .progressViewStyle(CircularProgressViewStyle())
-                .scaleEffect(1.5) // Makes the spinner larger
+                .scaleEffect(1.5)
             Text(message)
                 .font(.headline)
                 .foregroundColor(.gray)
