@@ -4,8 +4,17 @@ struct PokemonListView: View {
     @StateObject private var viewModel = PokemonListViewModel()
 
     var body: some View {
-        NavigationView {
+        NavigationView { // NavigationView wraps all content
             VStack(spacing: 0) {
+                // Title Section
+                Text("Pokédex")
+                    .font(.system(size: 42, weight: .bold)) // Customize as needed
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 16)
+                    .padding(.top, 16)
+                    .padding(.bottom, 16)
+                    .background(Color(.systemBackground)) // Same background color for consistency
+                                
                 // Search Bar Section
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Rechercher un Pokémon par nom")
@@ -24,24 +33,31 @@ struct PokemonListView: View {
                 if viewModel.isLoading {
                     ProgressView("Loading Pokémon...")
                         .padding()
-                } else if !viewModel.filteredPokemon.isEmpty {
+                } else {
                     ScrollView {
-                        LazyVStack(spacing: 16) {
-                            ForEach(viewModel.filteredPokemon, id: \.id) { pokemon in
-                                PokemonRow(pokemon: pokemon)
+                        if !viewModel.filteredPokemon.isEmpty {
+                            LazyVStack(spacing: 16) {
+                                ForEach(viewModel.filteredPokemon, id: \.id) { pokemon in
+                                    PokemonRowNavigationView(pokemon: pokemon)
+                                }
+                            }
+                            .padding(.horizontal, 16)
+                            .padding(.top, 8)
+                        } else {
+                            VStack {
+                                Spacer()
+                                Text("Aucun Pokémon trouvé.")
+                                    .foregroundColor(.secondary)
+                                    .padding()
+                                Spacer()
                             }
                         }
-                        .padding(.horizontal, 16)
-                        .padding(.top, 8)
                     }
-                } else {
-                    Text("Aucun Pokémon trouvé.")
-                        .foregroundColor(.secondary)
-                        .padding()
                 }
             }
             .background(Color(.systemBackground))
-            .navigationTitle("Pokédex")
+            .navigationBarTitleDisplayMode(.inline) // Ensure title stays consistent
+            .navigationBarBackButtonHidden(true) // Hide back button
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
@@ -49,7 +65,7 @@ struct PokemonListView: View {
                     }) {
                         Image(systemName: "line.horizontal.3.decrease.circle")
                             .font(.title2)
-                            .foregroundColor(.black) // Toolbar filter button in black
+                            .foregroundColor(.black)
                     }
                 }
             }
@@ -60,5 +76,6 @@ struct PokemonListView: View {
                 viewModel.fetchPokemon()
             }
         }
+        .navigationBarBackButtonHidden(true) // Ensure it's applied to the whole view
     }
 }

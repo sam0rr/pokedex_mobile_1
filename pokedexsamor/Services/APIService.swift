@@ -39,7 +39,6 @@ class APIService {
 
     private init() {}
 
-    // MARK: - Perform Request (Decodable Response)
     func performRequest<T: Decodable>(
         url: String,
         method: HTTPMethod,
@@ -108,16 +107,9 @@ class APIService {
             }
         }
 
-            
-            
-
-        
-        
-
         task.resume()
     }
 
-    // MARK: - Perform Request (No Decodable Response)
     private func performRequest(
         url: String,
         method: HTTPMethod,
@@ -165,7 +157,6 @@ class APIService {
         task.resume()
     }
 
-    // MARK: - Public POST (No Response Expected)
     func post(
         to url: String,
         parameters: [String: Any],
@@ -174,7 +165,6 @@ class APIService {
         performRequest(url: url, method: .post, parameters: parameters, completion: completion)
     }
 
-    // MARK: - Public POST (Response Expected)
     func post<T: Decodable>(
         to url: String,
         parameters: [String: Any],
@@ -184,8 +174,6 @@ class APIService {
     }
 }
 
-
-    // MARK: - Logging Helper Methods
     private func logInfo(_ message: String) {
         print("ℹ️ \(message)")
     }
@@ -194,7 +182,6 @@ class APIService {
         print("❌ \(message)")
     }
 
-    // MARK: - HTTPMethod Enum
     enum HTTPMethod: String {
         case get = "GET"
         case post = "POST"

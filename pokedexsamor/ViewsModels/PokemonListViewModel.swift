@@ -35,7 +35,7 @@ class PokemonListViewModel: ObservableObject {
                 switch result {
                 case .success(let pokemon):
                     self?.pokemonList = pokemon.sorted(by: { $0.id < $1.id })
-                    print("Success fetching pokemons: \(pokemon.description)")
+                    print("Success fetching pokemons")
                 case .failure(let error):
                     self?.errorMessage = error.localizedDescription
                     print("❌ Error fetching Pokémon: \(error.localizedDescription)")

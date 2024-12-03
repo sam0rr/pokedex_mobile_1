@@ -17,9 +17,9 @@ class PokemonDetailViewModel: ObservableObject {
                     self?.pokemon = detail
                 case .failure(let error):
                     self?.errorMessage = error.localizedDescription
-                    print("❌ Error fetching Pokémon detail: \(error.localizedDescription)")
+                    print("❌ Error fetching Pokémon: \(error.localizedDescription)")
                 }
             }
-        } 
+        }
     }
 }
