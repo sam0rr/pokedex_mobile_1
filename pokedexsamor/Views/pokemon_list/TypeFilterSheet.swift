@@ -15,32 +15,53 @@ struct TypeFilterSheet: View {
         NavigationView {
             VStack {
                 ScrollView {
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], spacing: 50) {
+                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 160))], spacing: 15) {
                         ForEach(allTypes, id: \.self) { type in
                             Button(action: {
                                 toggleTypeSelection(type)
                             }) {
                                 PokemonTypeChip(
-                                                typeName: type,
-                                                width: 100,
-                                                height: 40,
-                                                isSelected: selectedTypes.contains(type)
-                                            )
+                                    typeName: type,
+                                    width: 160,
+                                    height: 40,
+                                    isSelected: selectedTypes.contains(type)
+                                )
                             }
                         }
                     }
                     .padding()
                 }
-                .navigationTitle("Filter by Type")
-                .navigationBarItems(
-                    leading: Button("Reset") {
-                        resetFilter()
-                    },
-                    trailing: Button("Save") {
-                        dismiss()
+                
+                    Button(action: { dismiss() }) {
+                        HStack {
+                            Image(systemName: "checkmark")
+                                .font(.system(size: 20, weight: .bold))
+                            Text("Sauvegarder")
+                                .font(.headline)
+                                .bold()
+                        }
+                        .frame(width: 150, height: 20)
+                        .padding()
+                        .foregroundColor(.white)
+                        .background(Color.red)
+                        .cornerRadius(8)
                     }
-                )
-            }
+                }
+            
+            .navigationTitle("Filtrer par type")
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarItems(
+                leading: Button(action: { dismiss() }) {
+                    Image(systemName: "arrow.backward")
+                        .font(.system(size: 12, weight: .bold))
+                        .foregroundColor(.black)
+                },
+                trailing: Button(action: resetFilter) {
+                    Image(systemName: "arrow.uturn.backward")
+                        .font(.system(size: 12, weight: .bold))
+                        .foregroundColor(.black)
+                }
+            )
         }
     }
 

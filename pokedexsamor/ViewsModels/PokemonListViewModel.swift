@@ -1,28 +1,49 @@
 import Foundation
+import Combine
 
 class PokemonListViewModel: ObservableObject {
     @Published var pokemonList: [Pokemon] = []
-    @Published var searchQuery: String = ""
-    @Published var selectedTypes: Set<String> = []
+    @Published var searchQuery: String = "" {
+        didSet { updateDisplayedPokemon() }
+    }
+    @Published var selectedTypes: Set<String> = [] {
+        didSet { updateDisplayedPokemon() }
+    }
     @Published var isFilterSheetPresented = false
     @Published var errorMessage: String? = nil
     @Published var isLoading: Bool = false
+    @Published var scannedPokemons: [String] = [] {
+        didSet { updateDisplayedPokemon() }
+    }
+    @Published var isScannerActive: Bool = false
 
-    var filteredPokemon: [Pokemon] {
-        var filtered = pokemonList
+    @Published var scannedPokemonRows: [Pokemon] = []
+    @Published var filteredPokemonRows: [Pokemon] = []
 
-        // Filter by search query
-        if !searchQuery.isEmpty {
-            filtered = filtered.filter { $0.name.lowercased().contains(searchQuery.lowercased()) }
+    var displayedPokemon: [Pokemon] {
+        scannedPokemonRows + filteredPokemonRows
+    }
+
+    init() {
+        updateDisplayedPokemon()
+    }
+
+    private func updateDisplayedPokemon() {
+        var uniquePokemonIDs = Set<Int>()
+
+        scannedPokemonRows = pokemonList.filter { pokemon in
+            let isScanned = scannedPokemons.contains(pokemon.name.lowercased()) || scannedPokemons.contains(String(pokemon.id))
+            if isScanned {
+                uniquePokemonIDs.insert(pokemon.id)
+            }
+            return isScanned
         }
 
-        // Filter by selected types
-        if !selectedTypes.isEmpty {
-            let lowercasedTypes = selectedTypes.map { $0.lowercased() }
-            filtered = filtered.filter { !Set($0.types.map { $0.lowercased() }).isDisjoint(with: lowercasedTypes) }
+        filteredPokemonRows = pokemonList.filter { pokemon in
+            !uniquePokemonIDs.contains(pokemon.id) &&
+            (searchQuery.isEmpty || pokemon.name.lowercased().contains(searchQuery.lowercased())) &&
+            (selectedTypes.isEmpty || !Set(pokemon.types.map { $0.lowercased() }).isDisjoint(with: selectedTypes.map { $0.lowercased() }))
         }
-
-        return filtered
     }
 
     func fetchPokemon() {
@@ -35,17 +56,29 @@ class PokemonListViewModel: ObservableObject {
                 switch result {
                 case .success(let pokemon):
                     self?.pokemonList = pokemon.sorted(by: { $0.id < $1.id })
-                    print("Success fetching pokemons")
+                    self?.updateDisplayedPokemon()
                 case .failure(let error):
                     self?.errorMessage = error.localizedDescription
-                    print("❌ Error fetching Pokémon: \(error.localizedDescription)")
                 }
             }
         }
     }
 
-    /// Toggles the visibility of the filter sheet
-    func toggleFilterSheet() {
-        isFilterSheetPresented.toggle()
+    func addScannedPokemons(_ codes: [String]) {
+        for code in codes {
+            if !scannedPokemons.contains(code.lowercased()) {
+                scannedPokemons.append(code.lowercased())
+            }
+        }
+    }
+
+    func resetScannedPokemons() {
+        scannedPokemons.removeAll()
+    }
+
+    func toggleScanner() {
+        isScannerActive.toggle()
     }
 }
+
+

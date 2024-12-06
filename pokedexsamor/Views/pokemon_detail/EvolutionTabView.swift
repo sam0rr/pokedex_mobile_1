@@ -21,8 +21,8 @@ struct EvolutionsTabView: View {
                     Text("Évolutions")
                         .font(.headline)
                         .foregroundColor(typeColor)
-                        .padding(.top, 12)
                         .padding(.bottom, 8)
+                        .padding(.leading, 12)
 
                     LazyVStack(spacing: 12) {
                         ForEach(viewModel.evolutionDetails) { evolution in
@@ -31,6 +31,7 @@ struct EvolutionsTabView: View {
                     }
                 }
             }
+            .padding(.top, 12)
             .padding()
         }
     }

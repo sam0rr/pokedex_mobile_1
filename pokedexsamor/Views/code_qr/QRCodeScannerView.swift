@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct QRCodeScannerView: UIViewControllerRepresentable {
-    var completion: (Result<String, QRCodeScannerViewController.QRCodeScannerError>) -> Void
+    var completion: ([String]) -> Void // Pass all scanned codes
     @Binding var isScannerActive: Bool
 
     func makeUIViewController(context: Context) -> QRCodeScannerViewController {
@@ -20,18 +20,22 @@ struct QRCodeScannerView: UIViewControllerRepresentable {
     }
 
     class Coordinator: NSObject, QRCodeScannerViewControllerDelegate {
-        let completion: (Result<String, QRCodeScannerViewController.QRCodeScannerError>) -> Void
+        let completion: ([String]) -> Void
+        private var scannedCodes = [String]()
 
-        init(completion: @escaping (Result<String, QRCodeScannerViewController.QRCodeScannerError>) -> Void) {
+        init(completion: @escaping ([String]) -> Void) {
             self.completion = completion
         }
 
         func didFindCode(_ code: String) {
-            completion(.success(code))
+            if !scannedCodes.contains(code) {
+                scannedCodes.append(code)
+                completion(scannedCodes)
+            }
         }
 
         func didFail(with error: QRCodeScannerViewController.QRCodeScannerError) {
-            completion(.failure(error))
+            print("Error: \(error)")
         }
     }
 }

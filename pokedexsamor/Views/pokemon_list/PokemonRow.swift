@@ -11,8 +11,8 @@ struct PokemonRow: View {
                 .shadow(
                     color: Color(pokemon.types.first?.lowercased() ?? "normal")
                         .opacity(0.6),
-                    radius: 10,
-                    x: 0, y: 2
+                    radius: 6,
+                    x: 2, y: 2
                 )
 
             HStack {

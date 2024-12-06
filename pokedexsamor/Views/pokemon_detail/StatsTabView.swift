@@ -45,6 +45,9 @@ struct StatsTabView: View {
                 }
             }
         }
+        .padding(.top, 12)
+        .padding(.leading, 12)
         .padding()
+        
     }
 }

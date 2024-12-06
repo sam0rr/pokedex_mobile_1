@@ -5,11 +5,13 @@ class QRCodeScannerViewController: UIViewController {
     enum QRCodeScannerError: Error {
         case badInput
         case badOutput
+        
     }
 
     weak var delegate: QRCodeScannerViewControllerDelegate?
     var onClose: (() -> Void)?
     private var captureSession: AVCaptureSession?
+    private var scannedCodes = Set<String>() // To
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,17 +73,26 @@ class QRCodeScannerViewController: UIViewController {
     }
 
     private func setupCloseButton() {
-        let closeButton = UIButton(type: .close)
+        let closeButton = UIButton(type: .system)
+
+        closeButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
+        closeButton.tintColor = .systemRed
         closeButton.translatesAutoresizingMaskIntoConstraints = false
+
         closeButton.addTarget(self, action: #selector(closeTapped), for: .touchUpInside)
 
         view.addSubview(closeButton)
 
         NSLayoutConstraint.activate([
             closeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
-            closeButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
+            closeButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            closeButton.widthAnchor.constraint(equalToConstant: 40),
+            closeButton.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
+
+
+
 
     @objc private func closeTapped() {
         onClose?()
@@ -94,13 +105,18 @@ protocol QRCodeScannerViewControllerDelegate: AnyObject {
     func didFail(with error: QRCodeScannerViewController.QRCodeScannerError)
 }
 
+
+
 extension QRCodeScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
         guard let metadataObject = metadataObjects.first,
               let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject,
               let stringValue = readableObject.stringValue else { return }
 
-        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-        delegate?.didFindCode(stringValue)
+        if !scannedCodes.contains(stringValue) {
+            scannedCodes.insert(stringValue)
+            AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+            delegate?.didFindCode(stringValue)
+        }
     }
 }
