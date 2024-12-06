@@ -14,7 +14,7 @@ struct SplashView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 250)
-                    Spacer() // Pushes the image to the top
+                    Spacer()
                 }
             }
             .onAppear {

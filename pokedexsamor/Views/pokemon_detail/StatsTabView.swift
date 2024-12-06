@@ -2,11 +2,13 @@ import SwiftUI
 
 struct StatsTabView: View {
     let pokemon: PokemonDetail
+    let typeColor: Color // Pass the Pokémon's type color
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Stats de base")
                 .font(.headline)
+                .foregroundColor(typeColor) // Apply the dynamic type color
 
             ForEach(pokemon.stats) { stat in
                 HStack {
@@ -25,6 +27,7 @@ struct StatsTabView: View {
             if !pokemon.defenses.isEmpty {
                 Text("Défense des types")
                     .font(.headline)
+                    .foregroundColor(typeColor) // Apply the dynamic type color
 
                 HStack {
                     ForEach(pokemon.defenses) { defense in

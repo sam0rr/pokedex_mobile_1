@@ -1,7 +1,8 @@
 import SwiftUI
 
 struct PokemonSearchView: View {
-    @Binding var searchText: String // Bindable to the parent view
+    @Binding var searchText: String
+    @State private var isShowingScanner = false
 
     var body: some View {
         VStack {
@@ -20,6 +21,7 @@ struct PokemonSearchView: View {
                     )
 
                 Button(action: {
+                    isShowingScanner.toggle()
                 }) {
                     Image(systemName: "qrcode.viewfinder")
                         .font(.system(size: 24))
@@ -28,17 +30,20 @@ struct PokemonSearchView: View {
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 8)
-
         }
-    }
-}
-
-struct PokemonSearchView_Previews: PreviewProvider {
-    @State static var searchText = ""
-
-    static var previews: some View {
-        PokemonSearchView(searchText: $searchText)
-            .previewLayout(.sizeThatFits)
-            .padding()
+        .sheet(isPresented: $isShowingScanner) {
+            QRCodeScannerView(
+                completion: { result in
+                    isShowingScanner = false
+                    switch result {
+                    case .success(let code):
+                        searchText = code
+                    case .failure(let error):
+                        print("Scanning failed: \(error.localizedDescription)")
+                    }
+                },
+                isScannerActive: $isShowingScanner
+            )
+        }
     }
 }

@@ -76,6 +76,6 @@ struct PokemonListView: View {
                 viewModel.fetchPokemon()
             }
         }
-        .navigationBarBackButtonHidden(true) // Ensure it's applied to the whole view
+        .navigationBarBackButtonHidden(true)
     }
 }

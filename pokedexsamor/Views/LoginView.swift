@@ -35,6 +35,7 @@ struct LoginView: View {
                             .disableAutocorrection(true)
                     }
                     .padding(.horizontal)
+                    .padding(.vertical)
 
                     Button(action: {
                         let user = User(username: username, password: password)

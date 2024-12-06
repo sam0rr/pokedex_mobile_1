@@ -11,12 +11,12 @@ struct ProgressBarView: View {
                     .frame(height: 10)
                     .foregroundColor(Color.gray.opacity(0.2))
 
-                // Filled Bar
+
                 RoundedRectangle(cornerRadius: 5)
                     .frame(width: value * geometry.size.width, height: 10)
                     .foregroundColor(.blue)
             }
         }
-        .frame(height: 10) // Set the height explicitly
+        .frame(height: 10)
     }
 }

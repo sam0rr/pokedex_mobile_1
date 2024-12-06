@@ -15,20 +15,17 @@ struct TypeFilterSheet: View {
         NavigationView {
             VStack {
                 ScrollView {
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], spacing: 16) {
+                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], spacing: 50) {
                         ForEach(allTypes, id: \.self) { type in
                             Button(action: {
                                 toggleTypeSelection(type)
                             }) {
-                                PokemonTypeChip(typeName: type)
-                                    .overlay(
-                                        Rectangle()
-                                            .stroke(selectedTypes.contains(type) ? Color(type.lowercased()) : Color.clear, lineWidth: 2)
-                                    )
-                                    .shadow(
-                                        color: selectedTypes.contains(type) ? Color(type.lowercased()).opacity(0.5) : Color.clear,
-                                        radius: selectedTypes.contains(type) ? 2 : 0, x: 0, y: 1
-                                    )
+                                PokemonTypeChip(
+                                                typeName: type,
+                                                width: 100,
+                                                height: 40,
+                                                isSelected: selectedTypes.contains(type)
+                                            )
                             }
                         }
                     }
@@ -46,7 +43,7 @@ struct TypeFilterSheet: View {
             }
         }
     }
-    
+
     private func toggleTypeSelection(_ type: String) {
         if selectedTypes.contains(type) {
             selectedTypes.remove(type)
@@ -54,7 +51,7 @@ struct TypeFilterSheet: View {
             selectedTypes.insert(type)
         }
     }
-    
+
     private func resetFilter() {
         selectedTypes.removeAll()
     }

@@ -2,6 +2,7 @@ import SwiftUI
 
 struct EvolutionsTabView: View {
     @ObservedObject var viewModel: PokemonDetailViewModel
+    let typeColor: Color
 
     var body: some View {
         ScrollView {
@@ -19,9 +20,10 @@ struct EvolutionsTabView: View {
                 } else {
                     Text("Évolutions")
                         .font(.headline)
+                        .foregroundColor(typeColor)
+                        .padding(.top, 12)
                         .padding(.bottom, 8)
 
-                    // Vertical list of Pokémon rows
                     LazyVStack(spacing: 12) {
                         ForEach(viewModel.evolutionDetails) { evolution in
                             PokemonRowNavigationView(pokemon: evolution)

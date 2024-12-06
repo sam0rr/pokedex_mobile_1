@@ -15,6 +15,9 @@
 		2CA0E41E2CFFC63B00CC16A5 /* EvolutionTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA0E41D2CFFC63600CC16A5 /* EvolutionTabView.swift */; };
 		2CA0E4202CFFC6A900CC16A5 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA0E41F2CFFC6A500CC16A5 /* HeaderView.swift */; };
 		2CA0E4222CFFC6F100CC16A5 /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA0E4212CFFC6EB00CC16A5 /* ProgressBarView.swift */; };
+		2CABCFD52D0346C400A28782 /* QRCodeScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CABCFD42D0346C400A28782 /* QRCodeScannerView.swift */; };
+		2CABCFD72D03476600A28782 /* QRCodeScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CABCFD62D03476600A28782 /* QRCodeScannerViewController.swift */; };
+		2CABCFDB2D034FD300A28782 /* TabButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CABCFDA2D034FD300A28782 /* TabButton.swift */; };
 		2CD853ED2CFA00150059345D /* pokedexsamorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD853EC2CFA00150059345D /* pokedexsamorApp.swift */; };
 		2CD853F12CFA00160059345D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2CD853F02CFA00160059345D /* Assets.xcassets */; };
 		2CD853F42CFA00160059345D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2CD853F32CFA00160059345D /* Preview Assets.xcassets */; };
@@ -67,6 +70,10 @@
 		2CA0E41D2CFFC63600CC16A5 /* EvolutionTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvolutionTabView.swift; sourceTree = "<group>"; };
 		2CA0E41F2CFFC6A500CC16A5 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		2CA0E4212CFFC6EB00CC16A5 /* ProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarView.swift; sourceTree = "<group>"; };
+		2CABCFD42D0346C400A28782 /* QRCodeScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScannerView.swift; sourceTree = "<group>"; };
+		2CABCFD62D03476600A28782 /* QRCodeScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScannerViewController.swift; sourceTree = "<group>"; };
+		2CABCFDA2D034FD300A28782 /* TabButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabButton.swift; sourceTree = "<group>"; };
+		2CABCFDC2D03624300A28782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		2CD853E92CFA00150059345D /* pokedexsamor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pokedexsamor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CD853EC2CFA00150059345D /* pokedexsamorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pokedexsamorApp.swift; sourceTree = "<group>"; };
 		2CD853F02CFA00160059345D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -121,6 +128,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2CABCFD12D03465C00A28782 /* code_qr */ = {
+			isa = PBXGroup;
+			children = (
+				2CABCFD42D0346C400A28782 /* QRCodeScannerView.swift */,
+			);
+			path = code_qr;
+			sourceTree = "<group>";
+		};
 		2CD853E02CFA00150059345D = {
 			isa = PBXGroup;
 			children = (
@@ -147,6 +162,7 @@
 		2CD853EB2CFA00150059345D /* pokedexsamor */ = {
 			isa = PBXGroup;
 			children = (
+				2CABCFDC2D03624300A28782 /* Info.plist */,
 				2CD854162CFA00490059345D /* Models */,
 				2CD854172CFA005F0059345D /* Views */,
 				2CD854182CFA006C0059345D /* ViewsModels */,
@@ -198,6 +214,7 @@
 				2CD854622CFA0ADC0059345D /* ProgressView.swift */,
 				2CD8541E2CFA022C0059345D /* SplashView.swift */,
 				2CD854202CFA026F0059345D /* LoginView.swift */,
+				2CABCFD12D03465C00A28782 /* code_qr */,
 				2CF3CB362CFFA4E40044ABF5 /* pokemon_list */,
 				2CF3CB372CFFA4FE0044ABF5 /* pokemon_detail */,
 			);
@@ -210,6 +227,7 @@
 				2CD854282CFA039F0059345D /* LoginViewModel.swift */,
 				2CD8542A2CFA03B00059345D /* PokemonListViewModel.swift */,
 				2CD8542C2CFA03C00059345D /* PokemonDetailViewModel.swift */,
+				2CABCFD62D03476600A28782 /* QRCodeScannerViewController.swift */,
 			);
 			path = ViewsModels;
 			sourceTree = "<group>";
@@ -241,11 +259,12 @@
 			isa = PBXGroup;
 			children = (
 				2CA0E4212CFFC6EB00CC16A5 /* ProgressBarView.swift */,
-				2CA0E41F2CFFC6A500CC16A5 /* HeaderView.swift */,
 				2CD854242CFA03740059345D /* PokemonDetailView.swift */,
+				2CA0E41F2CFFC6A500CC16A5 /* HeaderView.swift */,
 				2CA0E4182CFFC5F300CC16A5 /* AboutTavView.swift */,
 				2CA0E41A2CFFC60B00CC16A5 /* StatsTabView.swift */,
 				2CA0E41D2CFFC63600CC16A5 /* EvolutionTabView.swift */,
+				2CABCFDA2D034FD300A28782 /* TabButton.swift */,
 			);
 			path = pokemon_detail;
 			sourceTree = "<group>";
@@ -383,6 +402,7 @@
 				2CD853ED2CFA00150059345D /* pokedexsamorApp.swift in Sources */,
 				2CA0E4192CFFC5FB00CC16A5 /* AboutTavView.swift in Sources */,
 				2CD854272CFA03830059345D /* TypeFilterSheet.swift in Sources */,
+				2CABCFDB2D034FD300A28782 /* TabButton.swift in Sources */,
 				2CD8541F2CFA022C0059345D /* SplashView.swift in Sources */,
 				2CD8541B2CFA00D20059345D /* Pokemon.swift in Sources */,
 				2CD854212CFA026F0059345D /* LoginView.swift in Sources */,
@@ -404,8 +424,10 @@
 				2CD854352CFA044B0059345D /* PokemonRow.swift in Sources */,
 				2CD854332CFA03E20059345D /* PokemonService.swift in Sources */,
 				2CD8542F2CFA03CB0059345D /* APIService.swift in Sources */,
+				2CABCFD52D0346C400A28782 /* QRCodeScannerView.swift in Sources */,
 				2C44B9762CFA408500E76F86 /* PokemonDetail.swift in Sources */,
 				2CD854292CFA039F0059345D /* LoginViewModel.swift in Sources */,
+				2CABCFD72D03476600A28782 /* QRCodeScannerViewController.swift in Sources */,
 				2CA0E4202CFFC6A900CC16A5 /* HeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -570,8 +592,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"pokedexsamor/Preview Content\"";
+				DEVELOPMENT_TEAM = YXTNKKRWG7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = pokedexsamor/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "oualid the best";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -598,8 +623,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"pokedexsamor/Preview Content\"";
+				DEVELOPMENT_TEAM = YXTNKKRWG7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = pokedexsamor/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "oualid the best";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
