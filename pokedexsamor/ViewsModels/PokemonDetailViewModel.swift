@@ -9,6 +9,7 @@ class PokemonDetailViewModel: ObservableObject {
     @Published var isFetchingEvolutions: Bool = false
     @Published var evolutionErrorMessage: String? = nil
 
+
     func fetchPokemonDetail(idOrName: String) {
         isLoading = true
         errorMessage = nil

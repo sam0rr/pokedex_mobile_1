@@ -5,29 +5,39 @@ struct PokemonListView: View {
 
     var body: some View {
         NavigationView {
-            VStack(spacing: 0) {
-                titleSection
-                searchBarSection
-                contentSection
-            }
-            .background(Color(.systemBackground))
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarBackButtonHidden(true)
-            .toolbar { filterToolbar }
-            .sheet(isPresented: $viewModel.isFilterSheetPresented) {
-                TypeFilterSheet(selectedTypes: $viewModel.selectedTypes)
-            }
-            .onAppear(perform: onAppear)
-            .sheet(isPresented: $viewModel.isScannerActive) {
-                QRCodeScannerView(
-                    completion: { scannedCodes in
-                        viewModel.addScannedPokemons(scannedCodes)
-                    },
-                    isScannerActive: $viewModel.isScannerActive
+            if viewModel.isLoading {
+                CustomProgressView(message: "Chargement des Pokémon...")
+                    .padding(.top, 50)
+            } else {
+                VStack(spacing: 0) {
+                    titleSection
+                    searchBarSection
+                    contentSection
+                }
+                .background(Color(.systemBackground))
+                .navigationBarTitleDisplayMode(.inline)
+                .navigationBarBackButtonHidden(true) // Keep the back button hidden
+                .toolbar { filterToolbar }
+                .sheet(isPresented: $viewModel.isFilterSheetPresented) {
+                    TypeFilterSheet(selectedTypes: $viewModel.selectedTypes)
+                }
+                .onAppear(perform: onAppear)
+                .sheet(isPresented: $viewModel.isScannerActive) {
+                    QRCodeScannerView(
+                        completion: { scannedCodes in
+                            viewModel.addScannedPokemons(scannedCodes)
+                        },
+                        isScannerActive: $viewModel.isScannerActive
+                    )
+                }
+                .gesture(
+                    DragGesture().onChanged { _ in } // Disable the swipe back gesture
                 )
             }
         }
+        .navigationViewStyle(StackNavigationViewStyle()) // Ensure consistent navigation style
     }
+
 
     private var titleSection: some View {
         Text("Pokédex")
@@ -89,17 +99,22 @@ struct PokemonListView: View {
     }
 
     private var resetScannedButton: some View {
-        Button(action: viewModel.resetScannedPokemons) {
-            HStack {
-                Image(systemName: "trash")
-                    .foregroundColor(.red)
-                Text("Réinitialiser les Pokémon scannés")
-                    .foregroundColor(.red)
+        HStack {
+            Spacer()
+            Button(action: viewModel.resetScannedPokemons) {
+                HStack {
+                    Image(systemName: "trash")
+                        .foregroundColor(.red)
+                    Text("Réinitialiser les Pokémon scannés")
+                        .foregroundColor(.red)
+                }
+                .padding()
             }
-            .padding()
+            Spacer()
         }
         .padding(.horizontal, 16)
     }
+
 
     private var contentSection: some View {
         Group {
@@ -133,7 +148,6 @@ struct PokemonListView: View {
         }
     }
 
-    // MARK: - Toolbar
     private var filterToolbar: some ToolbarContent {
         ToolbarItem(placement: .navigationBarTrailing) {
             Button(action: {
@@ -147,7 +161,6 @@ struct PokemonListView: View {
         }
     }
 
-    // MARK: - On Appear
     private func onAppear() {
         if viewModel.pokemonList.isEmpty {
             viewModel.fetchPokemon()

@@ -5,14 +5,13 @@ class QRCodeScannerViewController: UIViewController {
     enum QRCodeScannerError: Error {
         case badInput
         case badOutput
-        
+        case invalidCode
     }
 
     weak var delegate: QRCodeScannerViewControllerDelegate?
     var onClose: (() -> Void)?
     private var captureSession: AVCaptureSession?
-    private var scannedCodes = Set<String>() // To
-
+    private var scannedCodes = Set<String>()
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCamera()
@@ -91,12 +90,18 @@ class QRCodeScannerViewController: UIViewController {
         ])
     }
 
-
-
-
     @objc private func closeTapped() {
         onClose?()
         dismiss(animated: true, completion: nil)
+    }
+
+    private func validateCode(_ code: String) -> Bool {
+        if let _ = Int(code), (1...264).contains(Int(code)!) {
+            return true
+        } else if !code.isEmpty && code.allSatisfy({ $0.isLetter || $0.isWhitespace }) {
+            return true
+        }
+        return false
     }
 }
 
@@ -105,18 +110,22 @@ protocol QRCodeScannerViewControllerDelegate: AnyObject {
     func didFail(with error: QRCodeScannerViewController.QRCodeScannerError)
 }
 
-
-
 extension QRCodeScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
         guard let metadataObject = metadataObjects.first,
               let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject,
               let stringValue = readableObject.stringValue else { return }
 
-        if !scannedCodes.contains(stringValue) {
+        if scannedCodes.contains(stringValue) {
+            return
+        }
+
+        if validateCode(stringValue) {
             scannedCodes.insert(stringValue)
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
             delegate?.didFindCode(stringValue)
+        } else {
+            delegate?.didFail(with: .invalidCode)
         }
     }
 }

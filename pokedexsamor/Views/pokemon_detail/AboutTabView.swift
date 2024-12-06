@@ -7,7 +7,6 @@ struct AboutTabView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                // Description Section
                 if !pokemon.description.isEmpty {
                     Text(pokemon.description)
                         .font(.body)
@@ -78,6 +77,8 @@ struct AboutTabView: View {
             }
             .padding(.leading, 20)
             .padding(.vertical, 16)
+            .padding(.trailing, 10)
+
         }
     }
 }

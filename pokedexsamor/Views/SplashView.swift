@@ -2,10 +2,13 @@ import SwiftUI
 
 struct SplashView: View {
     @State private var isActive = false
+    @State private var isLoggedIn = false
 
     var body: some View {
-        if isActive {
-            LoginView()
+        if isLoggedIn {
+            PokemonListView()
+        } else if isActive {
+            LoginView(isLoggedIn: $isLoggedIn)
         } else {
             ZStack {
                 Color.red.ignoresSafeArea()
@@ -13,7 +16,7 @@ struct SplashView: View {
                     Image("pokemon")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 250)
+                        .frame(width: 350, height: 300)
                     Spacer()
                 }
             }
@@ -26,8 +29,4 @@ struct SplashView: View {
             }
         }
     }
-}
-
-#Preview {
-    SplashView()
 }

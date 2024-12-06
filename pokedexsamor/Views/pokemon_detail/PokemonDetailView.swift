@@ -15,15 +15,13 @@ struct PokemonDetailView: View {
 
                 VStack {
                     if viewModel.isLoading {
-                        ProgressView("Loading...")
+                        ProgressView("Chargement...")
                             .padding(.top, 50)
                     } else if let pokemon = viewModel.pokemon {
                         VStack(spacing: 0) {
-                            // Header Section
                             HeaderView(pokemon: pokemon)
                                 .padding(.top, 40)
 
-                            // Custom Tabs Section
                             HStack(spacing: 0) {
                                 TabButton(
                                     title: "À propos",

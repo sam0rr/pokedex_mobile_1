@@ -8,6 +8,7 @@ struct CustomProgressView: View {
             ProgressView()
                 .progressViewStyle(CircularProgressViewStyle())
                 .scaleEffect(1.5)
+                .background(Color.white)
             Text(message)
                 .font(.headline)
                 .foregroundColor(.gray)

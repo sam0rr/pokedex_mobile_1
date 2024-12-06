@@ -11,7 +11,7 @@ class PokemonListViewModel: ObservableObject {
     }
     @Published var isFilterSheetPresented = false
     @Published var errorMessage: String? = nil
-    @Published var isLoading: Bool = false
+    @Published var isLoading: Bool = true
     @Published var scannedPokemons: [String] = [] {
         didSet { updateDisplayedPokemon() }
     }
@@ -25,7 +25,7 @@ class PokemonListViewModel: ObservableObject {
     }
 
     init() {
-        updateDisplayedPokemon()
+        fetchPokemon()
     }
 
     private func updateDisplayedPokemon() {
@@ -80,5 +80,3 @@ class PokemonListViewModel: ObservableObject {
         isScannerActive.toggle()
     }
 }
-
-
