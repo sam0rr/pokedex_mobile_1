@@ -75,9 +75,10 @@ struct AboutTabView: View {
                     }
                 }
             }
-            .padding(.leading, 20)
-            .padding(.vertical, 16)
-            .padding(.trailing, 10)
+            .padding(.leading, 40)
+            .padding(.top, 50)
+            .padding(.bottom, 40)
+            .padding(.trailing, 40)
 
         }
     }

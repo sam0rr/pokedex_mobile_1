@@ -31,7 +31,8 @@ struct EvolutionsTabView: View {
                     }
                 }
             }
-            .padding(.top, 12)
+            .padding(.top, 40)
+            .padding(.bottom, 40)
             .padding()
         }
     }

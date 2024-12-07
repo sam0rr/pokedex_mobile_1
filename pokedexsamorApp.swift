@@ -6,7 +6,7 @@ struct pokedexsamorApp: App {
 
     var body: some Scene {
         WindowGroup {
-            PokemonListView()
+            SplashView()
                 .preferredColorScheme(.light)
         }
     }

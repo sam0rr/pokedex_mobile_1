@@ -4,6 +4,7 @@ struct PokemonDetailView: View {
     @StateObject private var viewModel = PokemonDetailViewModel()
     let idOrName: String
 
+    @Environment(\.dismiss) private var dismiss
     @State private var selectedTab = 0
 
     var body: some View {
@@ -76,7 +77,24 @@ struct PokemonDetailView: View {
         .onAppear {
             viewModel.fetchPokemonDetail(idOrName: idOrName)
         }
-        .navigationTitle("Pokédex")
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    dismiss()
+                }) {
+                    HStack(spacing: 6) {
+                        Image(systemName: "chevron.backward")
+                            .font(.system(size: 18, weight: .medium))
+                            .foregroundColor(.black)
+                        
+                        Text("Pokédex")
+                            .font(.system(size: 20))
+                            .foregroundColor(.black)
+                    }
+                }
+            }
+        }
     }
 }

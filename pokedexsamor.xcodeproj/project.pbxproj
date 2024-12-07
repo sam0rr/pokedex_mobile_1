@@ -255,11 +255,11 @@
 		2CF3CB372CFFA4FE0044ABF5 /* pokemon_detail */ = {
 			isa = PBXGroup;
 			children = (
-				2CA0E4212CFFC6EB00CC16A5 /* ProgressBarView.swift */,
 				2CD854242CFA03740059345D /* PokemonDetailView.swift */,
 				2CA0E41F2CFFC6A500CC16A5 /* HeaderView.swift */,
 				2CABCFDD2D036F1800A28782 /* AboutTabView.swift */,
 				2CA0E41A2CFFC60B00CC16A5 /* StatsTabView.swift */,
+				2CA0E4212CFFC6EB00CC16A5 /* ProgressBarView.swift */,
 				2CA0E41D2CFFC63600CC16A5 /* EvolutionTabView.swift */,
 				2CABCFDA2D034FD300A28782 /* TabButton.swift */,
 			);

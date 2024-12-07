@@ -26,7 +26,7 @@ struct PokemonTypeChip: View {
         .background(
             Color(typeName.lowercased())
         )
-        .brightness(isSelected ? 0.3 : 0)
+        .brightness(isSelected ? 0.35 : 0)
         .cornerRadius(3)
         .foregroundColor(.white)
     }

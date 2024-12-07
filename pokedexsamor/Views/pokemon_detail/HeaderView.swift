@@ -14,7 +14,7 @@ struct HeaderView: View {
 
                 Text(pokemon.name.capitalized)
                     .font(.system(size: 64, weight: .bold))
-                    .foregroundColor(.white.opacity(0.2))
+                    .foregroundColor(.white.opacity(0.6))
                     .padding(.bottom, -40)
 
                 Spacer()
