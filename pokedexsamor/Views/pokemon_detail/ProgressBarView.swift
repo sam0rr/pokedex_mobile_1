@@ -12,7 +12,7 @@ struct ProgressBarView: View {
                 .foregroundColor(Color.gray.opacity(0.2))
 
             RoundedRectangle(cornerRadius: 3)
-                .frame(width: value * width, height: 6)
+                .frame(width: min(value, 1) * width, height: 6)
                 .foregroundColor(typeColor)
         }
         .frame(height: 6)

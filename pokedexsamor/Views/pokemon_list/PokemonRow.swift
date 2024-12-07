@@ -2,11 +2,12 @@ import SwiftUI
 
 struct PokemonRow: View {
     let pokemon: Pokemon
+    @State private var attempt: Int = 0
 
     var body: some View {
         ZStack {
-            (Color(pokemon.types.first?.lowercased() ?? "normal")
-                .lighter(by: 0.15))
+            Color(pokemon.types.first?.lowercased() ?? "normal")
+                .lighter(by: 0.15)
                 .cornerRadius(15)
                 .shadow(
                     color: Color(pokemon.types.first?.lowercased() ?? "normal")
@@ -44,7 +45,7 @@ struct PokemonRow: View {
                 }
                 Spacer()
 
-                AsyncImage(url: URL(string: pokemon.imageURL)) { phase in
+                AsyncImage(url: URL(string: "\(pokemon.imageURL)?attempt=\(attempt)")) { phase in
                     switch phase {
                     case .empty:
                         ProgressView()
@@ -57,11 +58,15 @@ struct PokemonRow: View {
                             .frame(width: 120, height: 120)
                             .offset(x: 0, y: -25)
                     case .failure:
-                        Image(systemName: "photo")
-                            .resizable()
-                            .scaledToFit()
+                        Color.clear
                             .frame(width: 120, height: 120)
                             .offset(x: 0, y: -25)
+                            .onAppear {
+                                Task {
+                                    try? await Task.sleep(nanoseconds: 1_000_000_000)
+                                    attempt += 1
+                                }
+                            }
                     @unknown default:
                         EmptyView()
                             .frame(width: 120, height: 120)

@@ -41,7 +41,6 @@ class PokemonDetailViewModel: ObservableObject {
                 switch result {
                 case .success(let evolutions):
                     self?.evolutionDetails = evolutions.filter { evolution in
-                        // Exclude the current Pokémon if loaded
                         guard let currentPokemon = self?.pokemon else { return true }
                         return evolution.name.lowercased() != currentPokemon.name.lowercased()
                     }

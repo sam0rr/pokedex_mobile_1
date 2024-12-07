@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct QRCodeScannerView: UIViewControllerRepresentable {
-    var completion: ([String]) -> Void // Pass all scanned codes
+    var completion: ([String]) -> Void
     @Binding var isScannerActive: Bool
 
     func makeUIViewController(context: Context) -> QRCodeScannerViewController {

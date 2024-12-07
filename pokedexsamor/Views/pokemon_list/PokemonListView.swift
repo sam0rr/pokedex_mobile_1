@@ -16,7 +16,7 @@ struct PokemonListView: View {
                 }
                 .background(Color(.systemBackground))
                 .navigationBarTitleDisplayMode(.inline)
-                .navigationBarBackButtonHidden(true) // Keep the back button hidden
+                .navigationBarBackButtonHidden(true)
                 .toolbar { filterToolbar }
                 .sheet(isPresented: $viewModel.isFilterSheetPresented) {
                     TypeFilterSheet(selectedTypes: $viewModel.selectedTypes)
@@ -31,11 +31,11 @@ struct PokemonListView: View {
                     )
                 }
                 .gesture(
-                    DragGesture().onChanged { _ in } // Disable the swipe back gesture
+                    DragGesture().onChanged { _ in }
                 )
             }
         }
-        .navigationViewStyle(StackNavigationViewStyle()) // Ensure consistent navigation style
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 
 
