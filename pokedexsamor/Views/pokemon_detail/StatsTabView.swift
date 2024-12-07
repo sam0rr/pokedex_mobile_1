@@ -36,7 +36,7 @@ struct StatsTabView: View {
                     }
                 }
 
-                if !pokemon.defenses.isEmpty {
+                if let defenses = pokemon.defenses, !defenses.isEmpty {
                     Text("Défenses de type")
                         .padding(.top, 10)
                         .font(.headline)
@@ -47,7 +47,7 @@ struct StatsTabView: View {
                         .foregroundColor(.gray)
 
                     LazyVGrid(columns: [GridItem(.adaptive(minimum: 50))], spacing: 12) {
-                        ForEach(pokemon.defenses, id: \.type) { defense in
+                        ForEach(defenses, id: \.type) { defense in
                             VStack(spacing: 4) {
                                 Image(defense.type.lowercased())
                                     .resizable()
@@ -84,9 +84,11 @@ struct StatsTabView: View {
     }
 
     private var orderedStats: [Stat] {
+        guard let stats = pokemon.stats else { return [] }
+
         let statOrder = ["hp", "attack", "defense", "special-attack", "special-defense", "speed"]
         return statOrder.compactMap { name in
-            pokemon.stats.first(where: { $0.name.lowercased() == name })
+            stats.first(where: { $0.name.lowercased() == name })
         }
     }
 }

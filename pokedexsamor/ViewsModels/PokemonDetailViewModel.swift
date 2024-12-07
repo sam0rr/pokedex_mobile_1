@@ -9,7 +9,6 @@ class PokemonDetailViewModel: ObservableObject {
     @Published var isFetchingEvolutions: Bool = false
     @Published var evolutionErrorMessage: String? = nil
 
-
     func fetchPokemonDetail(idOrName: String) {
         isLoading = true
         errorMessage = nil
@@ -20,7 +19,11 @@ class PokemonDetailViewModel: ObservableObject {
                 switch result {
                 case .success(let detail):
                     self?.pokemon = detail
-                    self?.fetchEvolutions(for: detail.evolutions)
+
+                    if let evolutions = detail.evolutions, !evolutions.isEmpty {
+                        self?.fetchEvolutions(for: evolutions)
+                    }
+
                 case .failure(let error):
                     self?.errorMessage = error.localizedDescription
                     print("❌ Error fetching Pokémon: \(error.localizedDescription)")

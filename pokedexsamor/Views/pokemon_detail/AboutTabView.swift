@@ -7,8 +7,8 @@ struct AboutTabView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                if !pokemon.description.isEmpty {
-                    Text(pokemon.description)
+                if let description = pokemon.description, !description.isEmpty {
+                    Text(description)
                         .font(.body)
                         .foregroundColor(.gray)
                         .multilineTextAlignment(.leading)
@@ -39,21 +39,35 @@ struct AboutTabView: View {
                     }
 
                     VStack(alignment: .leading, spacing: 12) {
-                        Text(pokemon.speciesName)
+                        Text(pokemon.speciesName ?? "N/A")
                             .font(.body)
                             .foregroundColor(.gray)
-                        Text("\(Int(round(Double(pokemon.height) / 10)))")
-                            .font(.body)
-                            .foregroundColor(.gray)
-                        Text("\(Int(round(Double(pokemon.weight) / 10)))")
-                            .font(.body)
-                            .foregroundColor(.gray)
+
+                        if let height = pokemon.height {
+                            Text("\(Int(round(Double(height) / 10)))")
+                                .font(.body)
+                                .foregroundColor(.gray)
+                        } else {
+                            Text("N/A")
+                                .font(.body)
+                                .foregroundColor(.gray)
+                        }
+
+                        if let weight = pokemon.weight {
+                            Text("\(Int(round(Double(weight) / 10)))")
+                                .font(.body)
+                                .foregroundColor(.gray)
+                        } else {
+                            Text("N/A")
+                                .font(.body)
+                                .foregroundColor(.gray)
+                        }
                     }
                     .padding(.leading, 30)
                     .padding(.bottom, 8)
                 }
 
-                if !pokemon.weaknesses.isEmpty {
+                if let weaknesses = pokemon.weaknesses, !weaknesses.isEmpty {
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Faiblesses")
                             .font(.headline)
@@ -63,13 +77,13 @@ struct AboutTabView: View {
 
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 8) {
-                                ForEach(pokemon.weaknesses, id: \.self) { weakness in
-                                                                   Image(weakness.lowercased())
-                                                                       .resizable()
-                                                                       .scaledToFit()
-                                                                       .frame(width: 32, height: 32)
-                                                                       .padding(2)
-                                                               }
+                                ForEach(weaknesses, id: \.self) { weakness in
+                                    Image(weakness.lowercased())
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 32, height: 32)
+                                        .padding(2)
+                                }
                             }
                         }
                     }
@@ -79,7 +93,6 @@ struct AboutTabView: View {
             .padding(.top, 50)
             .padding(.bottom, 40)
             .padding(.trailing, 40)
-
         }
     }
 }
